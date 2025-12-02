@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/navigation";
 import Header from "../components/header/Header";
-import InputScreen from "../screens/input-screen/InputScreen";
-import OutputScreen from "../screens/output-screen/OutputScreen";
+import InputScreen from "../screens/inputScreen/InputScreen";
+import OutputScreen from "../screens/outputScreen/OutputScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
