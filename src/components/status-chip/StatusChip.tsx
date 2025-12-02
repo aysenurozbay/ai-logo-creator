@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import Icon from "../Icon";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,48 +17,41 @@ export enum Status {
   Failed = "failed",
 }
 
-// Status’a göre konfigürasyon
 const statusConfig: Record<
   Status,
   {
     label: string;
-    icon?: keyof typeof Ionicons.glyphMap;
     bgColor: string;
     textColor: string;
     subtitleColor: string;
-    iconColor?: string;
     subtitle: string;
-    tappable: boolean; // pressable mi
-    image?: any; // sadece Completed için
+    tappable: boolean;
+    image?: any;
   }
 > = {
   [Status.InProgress]: {
     label: "In Progress",
-    icon: "refresh",
     bgColor: colors.dark500,
     textColor: "white",
     subtitleColor: "#F2F2F2",
-    iconColor: "white",
     subtitle: "Currently working",
     tappable: false,
   },
   [Status.Completed]: {
-    label: "Completed",
+    label: "Your Design is Ready!",
     bgColor: "#32CD32",
     textColor: "white",
     subtitleColor: "#E5FFE5",
-    subtitle: "Task finished",
+    subtitle: "Tap to see it.",
     tappable: true,
     image: require("../../assets/logo-styles/monogram.png"),
   },
   [Status.Failed]: {
-    label: "Failed",
-    icon: "close",
+    label: "Oops, something went wrong!",
     bgColor: "#FF4500",
     textColor: "white",
     subtitleColor: "#FFE5E5",
-    iconColor: "white",
-    subtitle: "Task failed",
+    subtitle: "Click to try again.",
     tappable: true,
   },
 };
@@ -72,11 +72,19 @@ export default function StatusChip({
       style={[styles.chip, { backgroundColor: config.bgColor }]}
       {...(config.tappable && onPress ? { onPress } : {})}
     >
-      {config.icon && (
-        <Icon name={config.icon} size={30} color={config.iconColor} />
+      {status === Status.InProgress && (
+        <ActivityIndicator
+          size="small"
+          color="#ffffff"
+          style={{ marginRight: 8 }}
+        />
       )}
-      {config.image && (
-        <Image source={config.image} style={{ width: 30, height: 30 }} />
+
+      {status === Status.Completed && config.image && (
+        <Image
+          source={config.image}
+          style={{ width: 30, height: 30, marginRight: 8 }}
+        />
       )}
 
       <View style={styles.textContainer}>

@@ -7,8 +7,9 @@ import {
   Button,
 } from "react-native";
 import colors from "../../constants/colors";
+("");
 import Icon from "../../components/Icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoSelector from "../../components/logo-selecter/LogoSelector";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -16,6 +17,7 @@ import { Dimensions } from "react-native";
 import StatusChip, { Status } from "../../components/status-chip/StatusChip";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
+import { getRandomTime } from "../../utils/randomTime";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -24,6 +26,7 @@ export default function InputScreen() {
   const [selectedLogoStyle, setSelectedLogoStyle] = useState<
     string | undefined
   >();
+  const [chipStatus, setChipStatus] = useState<Status | null>(null);
   const maxInputLength = 500;
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -35,9 +38,24 @@ export default function InputScreen() {
       logoStyle: selectedLogoStyle,
     });
   };
+  const createButtonHandler = () => {
+    setChipStatus(Status.InProgress);
+
+    const seconds = getRandomTime(1, 5);
+
+    setTimeout(() => {
+      setChipStatus(Status.Completed);
+    }, seconds * 1000);
+  };
 
   return (
     <View style={styles.container}>
+      {chipStatus && (
+        <StatusChip
+          status={chipStatus}
+          onPress={chipStatus === Status.InProgress ? undefined : showResult}
+        />
+      )}
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Enter Your Prompt</Text>
         <View style={styles.surpriseMeContainer}>
@@ -59,7 +77,6 @@ export default function InputScreen() {
           {userInput.length}/{maxInputLength}
         </Text>
       </View>
-
       <View style={{ marginTop: 20 }}>
         <View>
           <Text style={styles.titleText}> Logo Styles </Text>
@@ -67,8 +84,13 @@ export default function InputScreen() {
         <LogoSelector onSelect={(logoName) => setSelectedLogoStyle(logoName)} />
         <View style={{ marginTop: 10 }}></View>
       </View>
-
-      <TouchableOpacity style={styles.createButtonContainer}>
+      <TouchableOpacity
+        style={styles.createButtonContainer}
+        onPress={createButtonHandler}
+        disabled={
+          userInput.trim().length === 0 || chipStatus === Status.InProgress
+        }
+      >
         {/* <LinearGradient
           colors={["#2938DC", "#943DFF"]}
           start={{ x: 0, y: 0 }}

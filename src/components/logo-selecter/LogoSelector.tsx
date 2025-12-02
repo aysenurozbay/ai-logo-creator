@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function LogoSelector({ onSelect }: Props) {
-  const [selected, setSelected] = useState<string>("No Style"); // default "No Style"
+  const [selected, setSelected] = useState<string>("No Style");
 
   const handleSelect = (logoName: string) => {
     setSelected(logoName);
