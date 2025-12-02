@@ -13,6 +13,9 @@ import LogoSelector from "../../components/logo-selecter/LogoSelector";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { Dimensions } from "react-native";
+import StatusChip, { Status } from "../../components/status-chip/StatusChip";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types/navigation";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -20,8 +23,17 @@ export default function InputScreen() {
   const [userInput, setUserInput] = useState("");
   const maxInputLength = 500;
 
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const showResult = () => {
+    navigation.navigate("OutputScreen");
+  };
+
   return (
     <View style={styles.container}>
+      <StatusChip status={Status.Completed} onPress={showResult} />
+      <StatusChip status={Status.Failed} />
+      <StatusChip status={Status.InProgress} />
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Enter Your Prompt</Text>
         <View style={styles.surpriseMeContainer}>
@@ -58,6 +70,8 @@ export default function InputScreen() {
           colors={["#2938DC", "#943DFF"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
+            start: { x: 0, y: 0 },
+            end: { x: 1, y: 0 },
       
         > */}
         <View

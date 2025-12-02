@@ -1,5 +1,0 @@
-export type RootStackParamList = {
-  Input: undefined;                  
-  Output: undefined   
-  
-};
