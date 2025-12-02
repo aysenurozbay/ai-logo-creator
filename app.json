@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c32b69e6-27c1-4443-890f-ea9e53ee6fab"
+      }
+    },
+    "owner": "aysenurozbay"
   }
 }
