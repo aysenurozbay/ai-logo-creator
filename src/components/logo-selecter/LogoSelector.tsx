@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -9,22 +9,53 @@ import {
 } from "react-native";
 import { LOGOS, LogoType } from "../../constants/logos";
 import colors from "../../constants/colors";
-import Icon from "../../hooks/useIcon";
+import Icon from "../Icon";
 
-export default function LogoSelector() {
+type Props = {
+  onSelect?: (logoStyle: string) => void;
+};
+
+export default function LogoSelector({ onSelect }: Props) {
+  const [selected, setSelected] = useState<string>("No Style"); // default "No Style"
+
+  const handleSelect = (logoName: string) => {
+    setSelected(logoName);
+    onSelect && onSelect(logoName);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity key={"noStyle"} style={[styles.styleContainer]}>
-          <View style={styles.noStyleContainer}>
+        <TouchableOpacity
+          key={"noStyle"}
+          style={[styles.styleContainer]}
+          onPress={() => handleSelect("No Style")}
+        >
+          <View
+            style={[
+              styles.noStyleContainer,
+              selected === "No Style" && styles.selectedBorder,
+            ]}
+          >
             <Icon name="ban-outline" size={50} color={colors.white} />
           </View>
-
           <Text style={styles.styleName}>No Style</Text>
         </TouchableOpacity>
+
         {LOGOS.map((item: LogoType) => (
-          <TouchableOpacity key={item.key} style={styles.styleContainer}>
-            <Image key={item.name} source={item.logo} style={styles.image} />
+          <TouchableOpacity
+            key={item.key}
+            style={[styles.styleContainer]}
+            onPress={() => handleSelect(item.name)}
+          >
+            <Image
+              key={item.name}
+              source={item.logo}
+              style={[
+                styles.image,
+                selected === item.name && styles.selectedBorder,
+              ]}
+            />
             <Text style={styles.styleName}>{item.name}</Text>
           </TouchableOpacity>
         ))}
@@ -45,15 +76,18 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: colors.white,
-    borderRadius: 13,
+
     marginRight: 10,
   },
   styleContainer: {
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  selectedBorder: {
+    borderWidth: 2,
+    borderColor: colors.dark300,
+    borderRadius: 13,
   },
   image: {
     width: 90,

@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { RootStackParamList } from "../types/navigation";
 import Header from "../components/header/Header";
 import InputScreen from "../screens/input-screen/InputScreen";
-import OutputScreen from "../screens/output-screnn/OutputScreen";
+import OutputScreen from "../screens/output-screen/OutputScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

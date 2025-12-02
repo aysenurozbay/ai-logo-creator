@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
-import Icon from "../../hooks/useIcon";
+import Icon from "../Icon";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../../constants/colors";
 

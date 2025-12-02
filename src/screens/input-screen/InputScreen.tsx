@@ -7,7 +7,7 @@ import {
   Button,
 } from "react-native";
 import colors from "../../constants/colors";
-import Icon from "../../hooks/useIcon";
+import Icon from "../../components/Icon";
 import { useState } from "react";
 import LogoSelector from "../../components/logo-selecter/LogoSelector";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,19 +21,23 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function InputScreen() {
   const [userInput, setUserInput] = useState("");
+  const [selectedLogoStyle, setSelectedLogoStyle] = useState<
+    string | undefined
+  >();
   const maxInputLength = 500;
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const showResult = () => {
-    navigation.navigate("OutputScreen");
+    navigation.navigate("OutputScreen", {
+      imageUrl: require("../../assets/logo.png"),
+      userPrompt: userInput,
+      logoStyle: selectedLogoStyle,
+    });
   };
 
   return (
     <View style={styles.container}>
-      <StatusChip status={Status.Completed} onPress={showResult} />
-      <StatusChip status={Status.Failed} />
-      <StatusChip status={Status.InProgress} />
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Enter Your Prompt</Text>
         <View style={styles.surpriseMeContainer}>
@@ -60,8 +64,7 @@ export default function InputScreen() {
         <View>
           <Text style={styles.titleText}> Logo Styles </Text>
         </View>
-        <LogoSelector />
-
+        <LogoSelector onSelect={(logoName) => setSelectedLogoStyle(logoName)} />
         <View style={{ marginTop: 10 }}></View>
       </View>
 
