@@ -41,7 +41,7 @@ export default function InputScreen() {
     }
     setChipStatus(Status.InProgress);
     const seconds = getRandom(1, 5);
-    const isFailed = getRandom(1, 10) <= 2;
+    const isFailed = getRandom(1, 10) <= 10;
 
     setTimeout(() => {
       setChipStatus(isFailed ? Status.Failed : Status.Completed);

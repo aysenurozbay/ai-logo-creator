@@ -1,1 +1,1 @@
-# ai-logo-creator
+![App Screenshots](./src/assets/hexa.png)
