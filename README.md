@@ -94,7 +94,7 @@ uvicorn main:app --reload
 *** Backend may randomly fail when the simulated processing time is over 5 seconds. ***
 
 
-2️⃣ Frontend
+### 2️⃣ Frontend
 # Install dependencies
 npm install
 # or
@@ -107,7 +107,7 @@ yarn start
 
 
 
-📝 Features
+### 📝 Features
 	•	Input a prompt to generate a logo
 	•	Select a logo style
 	•	StatusChip indicating:
@@ -119,7 +119,7 @@ yarn start
 
 ⸻
 
-⚡ API Behavior
+### ⚡ API Behavior
 	•	POST /create-logo → expects { "prompt": string }
 	•	Returns:
   {
@@ -130,5 +130,5 @@ yarn start
 }
 
 
-⚠️ Notes
+### ⚠️ Notes
 	•	Ensure backend is running before using the app
