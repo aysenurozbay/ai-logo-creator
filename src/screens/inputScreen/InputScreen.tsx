@@ -16,6 +16,7 @@ import { RootStackParamList } from "../../types/navigation";
 import { getRandom } from "../../utils/randomTime";
 import Toast from "react-native-toast-message";
 import { LinearGradient } from "expo-linear-gradient";
+import { useCreateLogo } from "../../api/createLogo";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const MAX_INPUT_LENGTH = 500;
@@ -28,25 +29,29 @@ export default function InputScreen() {
     string | undefined
   >();
   const [chipStatus, setChipStatus] = useState<Status | null>(null);
+  const { mutate } = useCreateLogo();
 
   const generateButtonHandler = () => {
     if (!userInput.trim()) {
       Toast.show({
         type: "error",
         text1: "Input Required",
-        text2: "Please enter a prompt to generate a logo. ",
+        text2: "Please enter a prompt to generate a logo.",
       });
       return;
     }
+
     setChipStatus(Status.InProgress);
-    const seconds = getRandom(1, 5);
-    const isFailed = getRandom(1, 10) <= 1;
 
-    setTimeout(() => {
-      setChipStatus(isFailed ? Status.Failed : Status.Completed);
-    }, seconds * 1000);
+    mutate(userInput, {
+      onSuccess: (data) => {
+        setChipStatus(Status.Completed);
+      },
+      onError: (error) => {
+        setChipStatus(Status.Failed);
+      },
+    });
   };
-
   const handleStatusPress = () => {
     if (chipStatus === Status.Completed) {
       navigation.navigate("OutputScreen", {
