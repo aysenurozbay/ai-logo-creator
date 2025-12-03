@@ -15,11 +15,7 @@ export default function App() {
           ok: true,
           timestamp: Date.now(),
         });
-
-        console.log("Firebase OK! Doc ID:", docRef.id);
-      } catch (err) {
-        console.log("Firebase Error:", err);
-      }
+      } catch (err) {}
     };
 
     checkFirebase();

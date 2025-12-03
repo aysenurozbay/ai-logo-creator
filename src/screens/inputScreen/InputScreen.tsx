@@ -30,7 +30,6 @@ export default function InputScreen() {
   const [chipStatus, setChipStatus] = useState<Status | null>(null);
 
   const generateButtonHandler = () => {
-    console.log("Generate button pressed with input:", userInput);
     if (!userInput.trim()) {
       Toast.show({
         type: "error",
@@ -41,7 +40,7 @@ export default function InputScreen() {
     }
     setChipStatus(Status.InProgress);
     const seconds = getRandom(1, 5);
-    const isFailed = getRandom(1, 10) <= 10;
+    const isFailed = getRandom(1, 10) <= 1;
 
     setTimeout(() => {
       setChipStatus(isFailed ? Status.Failed : Status.Completed);
