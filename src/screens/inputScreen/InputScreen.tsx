@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import colors from "../../constants/colors";
 import Icon from "../../components/Icon";
-import LogoSelector from "../../components/logo-selecter/LogoSelector";
-import StatusChip, { Status } from "../../components/status-chip/StatusChip";
+import LogoSelector from "../../components/logoSelecter/LogoSelector";
+import StatusChip, { Status } from "../../components/statusChip/StatusChip";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import { getRandom } from "../../utils/randomTime";
