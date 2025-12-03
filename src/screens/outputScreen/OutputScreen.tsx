@@ -13,6 +13,7 @@ import { RouteProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import Icon from "../../components/Icon";
 import colors from "../../constants/colors";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 type OutputScreenRouteProp = RouteProp<RootStackParamList, "OutputScreen">;
@@ -27,6 +28,11 @@ export default function OutputScreen({ route }: Props) {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(userPrompt);
+    Toast.show({
+      type: "success",
+      text1: "Copied to Clipboard",
+      text2: "Your prompt has been copied successfully.",
+    });
   };
 
   const goBackHandler = () => {

@@ -3,12 +3,11 @@ import {
   Text,
   StyleSheet,
   Image,
-  Pressable,
+  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React from "react";
 import Icon from "../Icon";
-import { Ionicons } from "@expo/vector-icons";
 import colors from "../../constants/colors";
 
 export enum Status {
@@ -30,62 +29,60 @@ const statusConfig: Record<
   }
 > = {
   [Status.InProgress]: {
-    label: "In Progress",
+    label: "Creating Your Design...",
     bgColor: colors.dark500,
-    textColor: "white",
+    textColor: colors.white,
     subtitleColor: "#F2F2F2",
-    subtitle: "Currently working",
+    subtitle: "Ready in 2 minutes",
     tappable: false,
   },
   [Status.Completed]: {
     label: "Your Design is Ready!",
     bgColor: "#32CD32",
-    textColor: "white",
+    textColor: colors.white,
     subtitleColor: "#E5FFE5",
-    subtitle: "Tap to see it.",
+    subtitle: "Tap to view it",
     tappable: true,
     image: require("../../assets/logo-styles/monogram.png"),
   },
   [Status.Failed]: {
     label: "Oops, something went wrong!",
-    bgColor: "#FF4500",
-    textColor: "white",
+    bgColor: colors.error,
+    textColor: colors.white,
     subtitleColor: "#FFE5E5",
-    subtitle: "Click to try again.",
+    subtitle: "Tap to try again",
     tappable: true,
   },
 };
 
-export default function StatusChip({
-  status,
-  onPress,
-}: {
+interface StatusChipProps {
   status: Status;
   onPress?: () => void;
-}) {
-  const config = statusConfig[status];
+}
 
-  const Wrapper = config.tappable ? Pressable : View;
+export default function StatusChip({ status, onPress }: StatusChipProps) {
+  const config = statusConfig[status];
+  const Wrapper = config.tappable ? TouchableOpacity : View;
 
   return (
     <Wrapper
       style={[styles.chip, { backgroundColor: config.bgColor }]}
       {...(config.tappable && onPress ? { onPress } : {})}
+      activeOpacity={0.7}
     >
-      {status === Status.InProgress && (
-        <ActivityIndicator
-          size="small"
-          color="#ffffff"
-          style={{ marginRight: 8 }}
-        />
-      )}
+      <View style={styles.iconContainer}>
+        {status === Status.InProgress && (
+          <ActivityIndicator size="small" color={colors.white} />
+        )}
 
-      {status === Status.Completed && config.image && (
-        <Image
-          source={config.image}
-          style={{ width: 30, height: 30, marginRight: 8 }}
-        />
-      )}
+        {status === Status.Completed && config.image && (
+          <Image source={config.image} style={styles.image} />
+        )}
+
+        {status === Status.Failed && (
+          <Icon name="alert-circle-outline" size={24} color={colors.white} />
+        )}
+      </View>
 
       <View style={styles.textContainer}>
         <Text style={[styles.label, { color: config.textColor }]}>
@@ -103,21 +100,33 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
     borderRadius: 12,
     marginVertical: 5,
+    height: 60,
+  },
+  iconContainer: {
+    width: 60,
+    height: 60,
+    marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover", // soldaki view'ı tamamen kaplasın
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "center",
   },
   label: {
     fontWeight: "bold",
     fontSize: 16,
   },
   subtitle: {
-    fontSize: 10,
-  },
-  textContainer: {
-    marginLeft: 8,
-    paddingLeft: 8,
-    gap: 2,
+    fontSize: 12,
+    marginTop: 2,
   },
 });

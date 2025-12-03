@@ -4,6 +4,8 @@ import AppNavigator from "./src/navigation/AppNavigator";
 import { useEffect } from "react";
 import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "./src/firebase/config";
+import Toast from "react-native-toast-message";
+import colors from "./src/constants/colors";
 
 export default function App() {
   useEffect(() => {
@@ -25,12 +27,14 @@ export default function App() {
 
   return (
     <LinearGradient
-      colors={["#000", "#943DFF", "#2938DC"]}
+      colors={[colors.black, colors.purple, colors.black]}
+      locations={[0, 0.6, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={{ flex: 1 }}
     >
       <AppNavigator />
+      <Toast />
     </LinearGradient>
   );
 }

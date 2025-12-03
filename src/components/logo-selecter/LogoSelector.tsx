@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     paddingHorizontal: 10,
-
+    backgroundColor: colors.dark400,
+    borderRadius: 13,
     marginRight: 10,
   },
   styleContainer: {
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   selectedBorder: {
     borderWidth: 2,
-    borderColor: colors.dark300,
+    borderColor: colors.white,
     borderRadius: 13,
   },
   image: {

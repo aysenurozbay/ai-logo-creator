@@ -8,6 +8,8 @@ const colors = {
   light500: "#d4d4d8",
   light400: "#e4e4e7",
   light300: "#f4f4f5",
+  purple: "#2d114eff",
+  error: "#EF4444",
   gray: "#808080",
   white: "#FFFFFF",
 };
