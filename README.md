@@ -172,3 +172,10 @@ The processor will poll the `jobs` collection for documents with `"status": "pen
 Notes:
 - For production against real Firestore, authenticate with a service account (set GOOGLE_APPLICATION_CREDENTIALS).
 - The processor is intended for local/dev use or simple deployments (not a scalable production queue).
+
+
+
+📌 Deployment Status
+
+The project is fully implemented on the frontend and backend, but Firebase Functions could not be deployed due to a manifest version error.
+The backend code runs locally without issues, but the cloud deployment is pending.

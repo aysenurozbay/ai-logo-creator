@@ -3,6 +3,8 @@
     {
       "source": "functions",
       "codebase": "default",
+    
+      "manifest": "manifest.yaml",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [
         "venv",
