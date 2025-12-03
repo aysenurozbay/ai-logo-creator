@@ -139,3 +139,36 @@ yarn start
 ## ⚠️ Notes
 
 - Ensure backend is running before using the app.
+
+### ➕ Alternative backend — Local job processor (polling)
+
+If you prefer not to deploy Cloud Functions, you can run a simple local job processor that polls Firestore for new jobs and processes them (uses the same logic as the Cloud Function).
+
+1. Create a virtual env and install deps:
+
+```bash
+cd functions
+python3 -m venv venv
+source venv/bin/activate
+pip install google-cloud-firestore
+```
+
+2. If you want to use the Firestore emulator (recommended for local testing):
+
+- Start the Firestore emulator:
+  - gcloud: `gcloud emulators firestore start --host-port=localhost:8080`
+- Point the client to the emulator:
+  - `export FIRESTORE_EMULATOR_HOST=localhost:8080`
+  - `export GOOGLE_CLOUD_PROJECT=your-project-id`
+
+3. Run the local processor:
+
+```bash
+python processor.py
+```
+
+The processor will poll the `jobs` collection for documents with `"status": "pending"`, simulate processing (random delay) and update each job with `"status": "done"` and an `output` URL.
+
+Notes:
+- For production against real Firestore, authenticate with a service account (set GOOGLE_APPLICATION_CREDENTIALS).
+- The processor is intended for local/dev use or simple deployments (not a scalable production queue).

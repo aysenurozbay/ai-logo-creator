@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -13,10 +13,9 @@ import LogoSelector from "../../components/logoSelecter/LogoSelector";
 import StatusChip, { Status } from "../../components/statusChip/StatusChip";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
-import { getRandom } from "../../utils/randomTime";
 import Toast from "react-native-toast-message";
 import { LinearGradient } from "expo-linear-gradient";
-import { useCreateLogo } from "../../api/createLogo";
+import { firestore, createJob } from "../../firebase/config";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const MAX_INPUT_LENGTH = 500;
@@ -29,9 +28,32 @@ export default function InputScreen() {
     string | undefined
   >();
   const [chipStatus, setChipStatus] = useState<Status | null>(null);
-  const { mutate } = useCreateLogo();
+  const [jobId, setJobId] = useState<string | null>(null);
 
-  const generateButtonHandler = () => {
+  // Listener for job status updates
+  useEffect(() => {
+    if (!jobId) return;
+
+    const unsubscribe = firestore
+      .collection("jobs")
+      .doc(jobId)
+      .onSnapshot((doc) => {
+        const data = doc.data();
+        if (!data) return;
+
+        if (data.status === "done") {
+          setChipStatus(Status.Completed);
+        } else if (data.status === "failed") {
+          setChipStatus(Status.Failed);
+        } else {
+          setChipStatus(Status.InProgress);
+        }
+      });
+
+    return () => unsubscribe();
+  }, [jobId]);
+
+  const generateButtonHandler = async () => {
     if (!userInput.trim()) {
       Toast.show({
         type: "error",
@@ -43,23 +65,28 @@ export default function InputScreen() {
 
     setChipStatus(Status.InProgress);
 
-    mutate(userInput, {
-      onSuccess: (data) => {
-        setChipStatus(Status.Completed);
-      },
-      onError: (error) => {
-        setChipStatus(Status.Failed);
-      },
-    });
+    try {
+      const newJobId = await createJob(userInput, selectedLogoStyle);
+      setJobId(newJobId);
+    } catch (err) {
+      console.error(err);
+      setChipStatus(Status.Failed);
+    }
   };
-  const handleStatusPress = () => {
-    if (chipStatus === Status.Completed) {
+
+  const handleStatusPress = async () => {
+    if (!jobId) return;
+
+    const doc = await firestore.collection("jobs").doc(jobId).get();
+    const data = doc.data();
+
+    if (data?.status === "done") {
       navigation.navigate("OutputScreen", {
-        imageUrl: require("../../assets/logo.png"),
+        imageUrl: data.output,
         userPrompt: userInput,
         logoStyle: selectedLogoStyle,
       });
-    } else if (chipStatus === Status.Failed) {
+    } else if (data?.status === "failed") {
       generateButtonHandler();
     }
   };

@@ -1,0 +1,9 @@
+version: 1
+
+jobsOnCreate:
+    platform: gcfv2
+    runtime: python311
+    entryPoint: job_trigger
+    eventTrigger:
+        eventType: google.cloud.firestore.document.v1.created
+        resource: projects/ai-logo-creator-b6beb/databases/(default)/documents/jobs/{jobId}

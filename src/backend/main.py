@@ -28,3 +28,24 @@ def create_logo(prompt: LogoPrompt):
 
     }
     return ai_logo
+
+
+
+from google.cloud import firestore
+
+def job_trigger(event, context):
+    # Firestore doküman değişikliğinin tam yolu
+    full_path = context.resource
+    # jobs/{jobId} formatındaki job id’yi al
+    job_id = full_path.split("/")[-1]
+
+    print(f"Triggered for job: {job_id}")
+
+    db = firestore.Client()
+
+    # status güncelle
+    db.collection("jobs").document(job_id).update({
+        "status": "done"
+    })
+
+    print("Status updated!")

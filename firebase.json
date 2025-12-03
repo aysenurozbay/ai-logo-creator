@@ -11,9 +11,11 @@
         "firebase-debug.*.log",
         "*.local"
       ],
-      "runtime": "python3.11"
+      "runtime": "python311"
+
     }
   ],
+  
   "emulators": {
     "functions": {
       "port": 5001
