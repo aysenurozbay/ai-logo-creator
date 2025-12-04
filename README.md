@@ -1,6 +1,6 @@
 📌 Deployment Status
 
-The project is fully implemented on the frontend and backend, but Firebase Functions could not be deployed due to a manifest version error.
+The project is fully implemented on the frontend and backend, but Firebase Functions could not be deployed due to a error.
 
 
 
