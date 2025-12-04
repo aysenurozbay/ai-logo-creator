@@ -1,7 +1,10 @@
 📌 Deployment Status
 
 The project is fully implemented on the frontend and backend, but Firebase Functions could not be deployed due to a manifest version error.
-The backend code runs locally without issues, but the cloud deployment is pending.
+
+
+
+
 ![App Screenshots](./src/assets/hexa.png)
 
 # Hexa
