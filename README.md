@@ -30,6 +30,21 @@ The project is fully implemented on the frontend and backend, but Firebase Funct
 6. Retry on failure.
 
 ---
+An AI-powered branding tool that generates logo concepts from user prompts.
+
+## What it demonstrates
+- AI-driven UI interaction
+- Prompt-based input system
+- Image generation workflow
+- Frontend product thinking
+
+## Role
+Frontend + product UI development
+
+## Key focus
+- UX for AI tools
+- Prompt handling
+- Output visualization system
 
 ## 🏗 Architecture
 
